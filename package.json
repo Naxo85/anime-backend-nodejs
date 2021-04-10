@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-project",
+  "version": "1.0.0",
+  "description": "Backend for anime website ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Naxo85/anime-backend-nodejs.git"
+  },
+  "author": "Ignacio Aneiros Franco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Naxo85/anime-backend-nodejs/issues"
+  },
+  "homepage": "https://github.com/Naxo85/anime-backend-nodejs#readme"
+}
