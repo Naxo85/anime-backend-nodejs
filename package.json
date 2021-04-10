@@ -4,7 +4,8 @@
   "description": "Backend for anime website ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Naxo85/anime-backend-nodejs/issues"
   },
-  "homepage": "https://github.com/Naxo85/anime-backend-nodejs#readme"
+  "homepage": "https://github.com/Naxo85/anime-backend-nodejs#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
 }
