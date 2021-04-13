@@ -17,6 +17,7 @@ module.exports = class MalWrapper {
     //args.filter((a) => a) create an array with the existing args
     url.pathname += `/${args.filter((a) => a).join('/')}`;
     for (let p in params) {
+      console.log('zzzzzzzzzzzzzzzzzzzz EHHHHHHH ha entrado!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       url.searchParams.set(p, params[p]);
     }
     //url href constains the whole url, url.origin+url.pahtname
@@ -31,5 +32,15 @@ module.exports = class MalWrapper {
    */
   async findTop(type, page, subtype) {
     return await this.send(['top', type, page, subtype]);
+  }
+  /**
+   *
+   * @param {string} username username
+   * @param {string} request profile, history, friends, animelist, mangalist
+   * @param {string} data watching, ptw, onhold, ect
+   * @param {Object} param page sort search
+   */
+  async findUser(username, request, data, param) {
+    return await this.send(['user', username, request, data], param);
   }
 };

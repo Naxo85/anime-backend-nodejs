@@ -1,22 +1,20 @@
 const express = require('express');
-const MalWrapper = require('./modules/MalWrapper');
-
 const app = express();
-const malWrapper = new MalWrapper();
+const morgan = require('morgan');
+const userRouter = require('./routes/userRoutes');
+const rootRouter = require('./routes/rootRoutes');
 
-const prueba = app.get(['/', '/myanime'], (req, res) => {
-  //zzzzzzzz agregar catch al findTop por si algo va mal
-  malWrapper.findTop('anime').then((info) =>
-    res.status(200).json({
-      status: 'sucess',
-      results: info.top.length,
-      message: info.top,
-    })
-  );
+//Global Middlewares
+app.use(express.json()); //It parses incoming requests with JSON payloads and is based on body-parser.
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  console.log(`Hi from middleware! 🙌 \nI\'ve reveceived a request at ${req.requestTime}`);
+  next();
 });
+app.use(morgan('dev')); //HTTP request logger middleware
 
-//Server initiation
-const port = 3000;
-app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
-});
+//Routers (also middelwares, with target)
+app.use('/api.myanime/v1/', rootRouter);
+app.use('/api.myanime/v1/users/', userRouter);
+
+module.exports = app;
