@@ -1,13 +1,12 @@
 const express = require('express');
-const Jikan = require('jikan-node');
 const MalWrapper = require('./modules/MalWrapper');
 
 const app = express();
-const mal = new Jikan();
 const malWrapper = new MalWrapper();
 
 const prueba = app.get(['/', '/myanime'], (req, res) => {
-  mal.findTop('anime').then((info) =>
+  //zzzzzzzz agregar catch al findTop por si algo va mal
+  malWrapper.findTop('anime').then((info) =>
     res.status(200).json({
       status: 'sucess',
       results: info.top.length,
