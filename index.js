@@ -1,8 +1,9 @@
 const express = require('express');
-const app = express();
-const morgan = require('morgan');
 const userRouter = require('./routes/userRoutes');
 const rootRouter = require('./routes/rootRoutes');
+
+const app = express();
+const morgan = require('morgan');
 
 //Global Middlewares
 app.use(express.json()); //It parses incoming requests with JSON payloads and is based on body-parser.

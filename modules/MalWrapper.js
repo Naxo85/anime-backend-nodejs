@@ -1,5 +1,6 @@
 const URL = require('url').URL;
 const fetch = require('cross-fetch');
+const HttpError = require('./HttpError');
 
 module.exports = class MalWrapper {
   constructor() {
@@ -9,7 +10,7 @@ module.exports = class MalWrapper {
   async send(args, params) {
     const res = await fetch(this.createUrl(args, params));
     const data = await res.json();
-    if (res.status !== 200) throw `Response: ${res.status}`;
+    if (res.status !== 200) throw new HttpError(res);
     else return data;
   }
   createUrl(args, params) {
@@ -33,6 +34,7 @@ module.exports = class MalWrapper {
   async findTop(type, page, subtype) {
     return await this.send(['top', type, page, subtype]);
   }
+
   /**
    *
    * @param {string} username username
@@ -41,6 +43,10 @@ module.exports = class MalWrapper {
    * @param {Object} param page sort search
    */
   async findUser(username, request, data, param) {
-    return await this.send(['user', username, request, data], param);
+    try {
+      return await this.send(['user', username, request, data], param);
+    } catch (error) {
+      throw error;
+    }
   }
 };
