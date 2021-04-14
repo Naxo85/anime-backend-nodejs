@@ -1,9 +1,10 @@
 const MalWrapper = require('../modules/MalWrapper');
-const malWrapper = new MalWrapper();
 const HttpError = require('../modules/HttpError');
 
+const malWrapper = new MalWrapper();
+
 exports.checkNickName = (res, val) => {
-  if (!val instanceof String) {
+  if (!(val instanceof String)) {
     console.log(val);
     return res.status(400).json({
       status: 'failed',
@@ -23,7 +24,7 @@ exports.getUserAnimeList = (req, res) => {
       })
     )
     .catch((err) => {
-      if (err instanceof HttpError && err.response.status == 400) {
+      if (err instanceof HttpError && err.response.status === 400) {
         res.status(404).json({
           status: 'failed',
           data: 'User not found',

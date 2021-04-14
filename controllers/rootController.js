@@ -1,4 +1,5 @@
 const MalWrapper = require('../modules/MalWrapper');
+
 const malWrapper = new MalWrapper();
 
 exports.getTopAnimes = (req, res) => {
