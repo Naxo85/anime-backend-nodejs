@@ -16,14 +16,14 @@ module.exports = class MalWrapper {
 
   createUrl(args, params) {
     const url = new URL(this.baseURL);
-    //args.filter((a) => a) create an array with the existing args
-    url.pathname += `/${args.filter((a) => a).join('/')}`;
-    Object.keys(params).forEach((p) => {
-      console.log('zzzzzzzzzzzzzzzzzzzz EHHHHHHH ha entrado!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      url.searchParams.set(p, params[p]);
-    });
-    //url href constains the whole url, url.origin+url.pahtname
-    return url.href;
+    url.pathname += `/${args.filter((a) => a).join('/')}`; //args.filter((a) => a) create an array with the not null args
+    if (params) {
+      Object.keys(params).forEach((p) => {
+        console.log('zzzzzzzzzzzzzzzzzzzz EHHHHHHH ha entrado!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        url.searchParams.set(p, params[p]);
+      });
+    }
+    return url.href; //url href constains the whole url, url.origin+url.pahtname
   }
 
   /**

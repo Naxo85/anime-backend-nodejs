@@ -3,14 +3,14 @@ const HttpError = require('../modules/HttpError');
 
 const malWrapper = new MalWrapper();
 
-exports.checkNickName = (res, val) => {
-  if (!(val instanceof String)) {
-    console.log(val);
+exports.checkNickName = (req, res, next, val) => {
+  if (typeof val !== 'string') {
     return res.status(400).json({
       status: 'failed',
-      data: 'Invalid nickname',
+      data: 'Invalid nickname!',
     });
   }
+  next();
 };
 
 exports.getUserAnimeList = (req, res) => {
@@ -18,7 +18,7 @@ exports.getUserAnimeList = (req, res) => {
     .findUser(req.params.nickname, 'animelist')
     .then((info) =>
       res.status(200).json({
-        status: 'sucess',
+        status: 'success',
         results: info.anime.length,
         data: info.anime,
       })

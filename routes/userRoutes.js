@@ -6,10 +6,7 @@ const userController = require('../controllers/userController');
 const router = express.Router();
 
 // //Param middlewares (only for this 'mini app')
-router.param('nickname', (req, res, next, val) => {
-  userController.checkNickName(res, val);
-  next();
-});
+router.param('nickname', userController.checkNickName);
 
 //Routes
 router.route('/:nickname/animes').get(userController.getUserAnimeList);

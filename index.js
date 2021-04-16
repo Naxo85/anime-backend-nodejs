@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(morgan('dev')); //HTTP request logger middleware
 
-//Routers (also middelwares, with target)
+//Routers (also middelwares)
 app.use('/api.myanime/v1/', rootRouter);
 app.use('/api.myanime/v1/users/', userRouter);
 
