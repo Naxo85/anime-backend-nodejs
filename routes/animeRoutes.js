@@ -11,7 +11,7 @@ router.route('/').get(animeController.getAll).post(animeController.addOne);
 router
   .route('/:id')
   .get(animeController.getOne)
-  .put(animeController.modifyOne)
+  .patch(animeController.modifyOne)
   .delete(animeController.deleteOne);
 
 module.exports = router;
