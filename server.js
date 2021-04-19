@@ -3,9 +3,10 @@ const dotenv = require('dotenv'); //for adding config variables to the process
 
 dotenv.config({ path: './config.env' });
 
-//after adding variables, run the app file
+//after adding config variables to the process, require the express app exported by index
 const app = require('./index');
 
+//DB connection
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 mongoose
   .connect(DB, {
@@ -15,6 +16,7 @@ mongoose
   })
   .then(() => console.log('DB connection established'));
 
+//Server initialization
 const port = process.env.PORT;
 
 app.listen(port, () => {
