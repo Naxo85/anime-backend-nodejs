@@ -19,7 +19,9 @@ const animeSchema = new mongoose.Schema({
     default: 5,
   },
   year: Number,
+  type: String,
   studioName: String,
+  genres: [String],
 });
 
 const Anime = mongoose.model('Anime', animeSchema);
