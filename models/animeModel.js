@@ -21,7 +21,7 @@ const animeSchema = new mongoose.Schema({
   year: Number,
   type: String,
   studioName: String,
-  genres: [String],
+  // genres: [String],
 });
 
 const Anime = mongoose.model('Anime', animeSchema);

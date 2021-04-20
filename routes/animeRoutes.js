@@ -8,6 +8,8 @@ const router = express.Router();
 //Routes
 router.route('/').get(animeController.getAll).post(animeController.addOne);
 
+router.route('/top-10').get(animeController.aliasTop10, animeController.getAll);
+
 router
   .route('/:id')
   .get(animeController.getOne)
