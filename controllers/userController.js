@@ -1,5 +1,5 @@
-const MalWrapper = require('../modules/MalWrapper');
-const HttpError = require('../modules/HttpError');
+const MalWrapper = require('../Utils/MalWrapper');
+const HttpError = require('../Utils/HttpError');
 
 const malWrapper = new MalWrapper();
 

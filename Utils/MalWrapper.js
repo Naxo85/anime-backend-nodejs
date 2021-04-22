@@ -19,11 +19,11 @@ module.exports = class MalWrapper {
     url.pathname += `/${args.filter((a) => a).join('/')}`; //args.filter((a) => a) create an array with the not null args
     if (params) {
       Object.keys(params).forEach((p) => {
-        console.log('zzzzzzzzzzzzzzzzzzzz EHHHHHHH ha entrado!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log('zzzzzzzzzzzzzzzzzzzz Ha entrado!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         url.searchParams.set(p, params[p]);
       });
     }
-    return url.href; //url href constains the whole url, url.origin+url.pahtname
+    return url.href; //url.href constains the whole url, url.origin+url.pahtname
   }
 
   /**
@@ -45,5 +45,15 @@ module.exports = class MalWrapper {
    */
   async findUser(username, request, data, param) {
     return await this.send(['user', username, request, data], param);
+  }
+
+  /**
+   *
+   * @param {string} type anime or manga
+   * @param {integer} id genre id
+   * @param {integer} page page number
+   */
+  async getAnimesByGenre(type, id, page) {
+    return await this.send(['genre', type, id, page]);
   }
 };

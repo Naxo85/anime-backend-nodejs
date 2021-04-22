@@ -1,7 +1,8 @@
 const { query } = require('express');
 const Anime = require('../models/animeModel');
-const APIFeatures = require('../utils/APIFeatures');
+const APIFeatures = require('../Utils/ApiFeatures');
 
+// Middleware for alias
 exports.aliasTop10 = (req, res, next) => {
   req.query.limit = '10';
   req.query.sort = '-rating, -year, malId';
@@ -9,9 +10,16 @@ exports.aliasTop10 = (req, res, next) => {
   next();
 };
 
+function genericError(res, err) {
+  res.status(500).json({
+    status: 'failed',
+    message: err.message,
+  });
+}
+
 exports.getAll = async (req, res) => {
   try {
-    const features = new APIFeatures(Anime, req.query).filter().sort().limitFields().paginate();
+    const features = new APIFeatures(Anime.find(), req.query).filter().sort().limitFields().paginate();
     const animes = await features.entityQuery;
     res.status(200).json({
       status: 'success',
@@ -21,17 +29,15 @@ exports.getAll = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({
-      status: 'failed',
-      message: err.message,
-    });
+    genericError(res, err);
   }
 };
 
 exports.getOne = async (req, res) => {
   try {
-    // Anime.findOne({_id: req.params.id}) or equivalent mongoose shorthand:
-    const anime = await Anime.findById(req.params.id);
+    // Anime.findOne({_id: req.params.id}) or equivalent mongoose shorthand findById:
+    const features = new APIFeatures(Anime.findById(req.params.id), req.query).limitFields();
+    const anime = await features.entityQuery;
     res.status(200).json({
       status: 'success',
       data: {
@@ -39,18 +45,13 @@ exports.getOne = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({
-      status: 'failed',
-      message: err,
-    });
+    genericError(res, err);
   }
 };
 
 exports.addOne = async (req, res) => {
   try {
-    // const newAnime = new Anime({});
-    // newAnime.save();
-    // or equivalent:
+    // const newAnime = new Anime({}); newAnime.save();
     const newAnime = await Anime.create(req.body);
     res.status(201).json({
       status: 'success',
@@ -59,17 +60,14 @@ exports.addOne = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(400).json({
-      status: 'failed',
-      message: err,
-    });
+    genericError(res, err);
   }
 };
 
 exports.modifyOne = async (req, res) => {
   try {
     const anime = await Anime.findByIdAndUpdate(req.params.id, req.body, {
-      new: true, //the return document must be the updated one, default false
+      new: true, //the return document will be the updated one, default false
       runValidators: true,
     });
     res.status(200).json({
@@ -79,10 +77,7 @@ exports.modifyOne = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(400).json({
-      status: 'failed',
-      message: err,
-    });
+    genericError(res, err);
   }
 };
 

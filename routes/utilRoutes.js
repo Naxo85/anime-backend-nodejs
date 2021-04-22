@@ -6,6 +6,8 @@ const utilController = require('../controllers/utilController');
 const router = express.Router();
 
 //Routes
-router.route('/import').get(utilController.import);
+router.route('/import').post(utilController.import);
+
+router.route('/getAnimesByGenre').get(utilController.getAnimesByGenre);
 
 module.exports = router;

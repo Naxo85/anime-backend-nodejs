@@ -1,6 +1,6 @@
 module.exports = class APIFeatures {
-  constructor(entityModel, reqQuery) {
-    this.entityModel = entityModel;
+  constructor(entityQuery, reqQuery) {
+    this.entityQuery = entityQuery;
     this.reqQuery = reqQuery;
   }
 
@@ -12,8 +12,8 @@ module.exports = class APIFeatures {
     // express give us a query almost equal, without $ mongo operator, if we use in the url: ?rating[gte]=8
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    this.entityQuery = this.entityModel.find().where(JSON.parse(queryStr));
-    // to return the entire object and then chain with others features
+    this.entityQuery = this.entityQuery.where(JSON.parse(queryStr));
+    // return the entire object and then chain with others features
     return this;
   }
 
