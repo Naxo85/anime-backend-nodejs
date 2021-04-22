@@ -17,7 +17,7 @@ mongoose
 //node utils/deleteByConsole.js --delete
 const deleteData = async () => {
   try {
-    //await Anime.deleteMany();
+    await Anime.deleteMany();
     console.log('Data successfully deleted!');
     process.exit();
   } catch (err) {
