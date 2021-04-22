@@ -1,7 +1,7 @@
-const MalWrapper = require('../Utils/MalWrapper');
+const MalWrapper = require('../utils/MalWrapper');
 const Anime = require('../models/animeModel');
 const async = require('async');
-const genres = require('../Utils/genres');
+const genres = require('../utils/genres');
 
 const malWrapper = new MalWrapper();
 

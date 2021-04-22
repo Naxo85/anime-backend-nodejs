@@ -1,6 +1,6 @@
 const { query } = require('express');
 const Anime = require('../models/animeModel');
-const APIFeatures = require('../Utils/ApiFeatures');
+const APIFeatures = require('../utils/ApiFeatures');
 
 // Middleware for alias
 exports.aliasTop10 = (req, res, next) => {
@@ -82,8 +82,8 @@ exports.modifyOne = async (req, res) => {
 };
 
 exports.deleteOne = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    message: 'Not implemented',
+  res.status(418).json({
+    status: 'failed',
+    message: 'Implemented deleteMany by console command',
   });
 };
