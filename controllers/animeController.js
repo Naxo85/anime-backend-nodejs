@@ -87,3 +87,34 @@ exports.deleteOne = (req, res) => {
     message: 'Implemented deleteMany by console command',
   });
 };
+
+exports.getAnimeStats = async (req, res) => {
+  try {
+    const stats = await Anime.aggregate([
+      {
+        $match: { type: 'TV' },
+      },
+      {
+        $group: {
+          //using acumulators like sum, avg, first...
+          _id: { $toUpper: '$source' }, // if use null as value -> it doesnt group
+          numAnimes: { $sum: 1 },
+          avgRating: { $avg: '$rating' },
+          minYear: { $min: '$year' },
+        },
+      },
+      { $sort: { avgRating: -1 } }, //we use the fields of group, because now that's are our 'documents' // 1 for asc, -1 for desc
+      {
+        $match: { _id: { $ne: 'Test' } }, //its not going to filter because there is no Test source
+      },
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    genericError(res, err);
+  }
+};
