@@ -6,7 +6,7 @@ const APIFeatures = require('../utils/ApiFeatures');
 exports.aliasTop10 = (req, res, next) => {
   req.query.limit = '10';
   req.query.sort = '-rating, -year, malId';
-  req.query.fields = '-__v,-malId';
+  req.query.fields.concat('-__v,-malId');
   next();
 };
 
@@ -88,7 +88,7 @@ exports.deleteOne = (req, res) => {
   });
 };
 
-exports.getAnimeStats = async (req, res) => {
+exports.getStatsBySource = async (req, res) => {
   try {
     const stats = await Anime.aggregate([
       {
@@ -103,9 +103,52 @@ exports.getAnimeStats = async (req, res) => {
           minYear: { $min: '$year' },
         },
       },
-      { $sort: { avgRating: -1 } }, //we use the fields of group, because now that's are our 'documents' // 1 for asc, -1 for desc
+      {
+        $sort: { avgRating: -1 }, //we use the fields of group, because now that's are our 'documents' // 1 for asc, -1 for desc
+      },
       {
         $match: { _id: { $ne: 'Test' } }, //its not going to filter because there is no Test source
+      },
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    genericError(res, err);
+  }
+};
+
+exports.getStatsByGenre = async (req, res) => {
+  try {
+    const stats = await Anime.aggregate([
+      {
+        $unwind: '$genres',
+      },
+      {
+        $sort: { title: 1 },
+      },
+      {
+        $group: {
+          _id: '$genres',
+          numAnimes: { $sum: 1 },
+          avgRating: { $avg: '$rating' },
+          // titles: { $push: '$title' }, // unccoment to show an array with all anime titles for that genre
+        },
+      },
+      {
+        $sort: { avgRating: -1 },
+      },
+      {
+        $addFields: { genre: { $toUpper: '$_id' } },
+      },
+      {
+        $project: { _id: 0 }, // hide with 0, show with 1
+      },
+      {
+        $limit: 50, //not really useful here, just for know it exists
       },
     ]);
     res.status(200).json({
