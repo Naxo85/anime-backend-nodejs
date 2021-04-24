@@ -8,6 +8,6 @@ const router = express.Router();
 //Routes
 router.route('/import').post(utilController.import);
 
-router.route('/getAnimesByGenre').get(utilController.getAnimesByGenre);
+router.route('/animes-by-genre').get(utilController.getAnimesByGenre);
 
 module.exports = router;

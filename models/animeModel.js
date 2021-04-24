@@ -45,6 +45,38 @@ animeSchema.virtual('numberGenres').get(function () {
   if (this.genres) return this.genres.length;
 });
 
+// Mongoose middelwares (with pre and post hooks): document, query, aggregate and model
+
+// Document middelwares: 'this' points to document object
+// animeSchema.pre('save', function (next) {
+//   console.log(this);
+//   next();
+// });
+// animeSchema.post('save', function (doc, next) {
+//   console.log(doc);
+//   next();
+// });
+
+// Query middelwares: 'this' points to query object
+animeSchema.pre(/^find/, function (next) {
+  this.find({ title: { $ne: 'PRUEBA' } });
+  this.start = Date.now();
+  next();
+});
+animeSchema.post(/^find/, function (docs, next) {
+  console.log(`Query took ${Date.now() - this.start} milliseconds`);
+  next();
+});
+
+// Aggregation middelwares: 'this' points to aggregation object
+animeSchema.pre('aggregate', function (next) {
+  // pipeline return the array we pass to the aggregation, unshift add to the start of the array something
+  this.pipeline().unshift({
+    $match: { title: { $ne: 'PRUEBA' } },
+  });
+  next();
+});
+
 const Anime = mongoose.model('Anime', animeSchema);
 
 module.exports = Anime;

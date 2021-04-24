@@ -52,7 +52,7 @@ function addAnimeListToDB(animeList, limit, addedList) {
       synopsis: anime.synopsis,
       episodes: anime.episodes,
       source: anime.source,
-      studioName: anime.producers !== null ? anime.producers[0].name : null,
+      studioName: anime.producers && anime.producers[0] ? anime.producers[0].name : null,
       genres: genresAnime,
     });
     const animeDB = await Anime.findOne({ title: newAnime.title });
