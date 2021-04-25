@@ -71,7 +71,6 @@ animeSchema.virtual('numberGenres').get(function () {
 
 // Query middelwares: 'this' points to query object
 animeSchema.pre(/(?=^find)(?=(?!findOneAndUpdate))/, function (next) {
-  console.log('ENTRA');
   this.find({ title: { $ne: 'PRUEBA' } });
   this.start = Date.now();
   next();
