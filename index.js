@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const AppError = require('./utils/AppError');
+const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const utilRouter = require('./routes/utilRoutes');
 const animeRouter = require('./routes/animeRoutes');
@@ -21,5 +23,11 @@ app.use(morgan('dev')); //HTTP request logger middleware
 app.use('/api.myanime/v1/utils/', utilRouter);
 app.use('/api.myanime/v1/animes/', animeRouter);
 app.use('/api.myanime/v1/users/', userRouter);
+app.all('*', (req, res, next) => {
+  // if next receive an argument, express knows it's an error and sends it directly to global error handling
+  next(new AppError(`Can't find route: ${req.originalUrl}`, 404));
+});
+
+app.use(globalErrorHandler);
 
 module.exports = app;

@@ -42,7 +42,7 @@ const animeSchema = new mongoose.Schema(
     genres: [
       {
         type: String,
-        enum: genres,
+        enum: genres.map((a) => a.name),
       },
     ],
   },
