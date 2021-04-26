@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv'); //for adding config variables to the process
 
-// handling sinc global exceptions
+// handling global exceptions out of express or mongo
 process.on('uncaughtException', (err) => {
   console.log(err.name, err.message);
   process.exit(1);
